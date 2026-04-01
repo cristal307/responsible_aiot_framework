@@ -1,0 +1,509 @@
+
+import React, { useState } from 'react';
+import { Target, Users, Leaf, Cpu, Briefcase, ChevronDown, ChevronRight, Info, Lightbulb, Eye, MessageCircle, Zap } from 'lucide-react';
+
+const InteractiveFramework = () => {
+  const [activeStage, setActiveStage] = useState(null);
+  const [activeDimension, setActiveDimension] = useState(null);
+  const [showInfo, setShowInfo] = useState(true);
+
+  const stages = [
+    {
+      id: 1,
+      name: "Opportunity & Problem Framing",
+      purpose: "This is the 'Why.' Validate that the problem you are solving actually exists and is painful enough for people to pay for, and aligns with your impact mission.",
+      color: "bg-blue-50 border-blue-200"
+    },
+    {
+      id: 2,
+      name: "Concept & Value Proposition",
+      purpose: "The 'What.' You move from a broad problem to a specific, unique solution- a Lean Canvas, conceptual storyboard or 'napkin sketch' that resonates with potential early adopters.",
+      color: "bg-purple-50 border-purple-200"
+    },
+    {
+      id: 3,
+      name: "System Architecture & Design",
+      purpose: "The 'How.' Moving from concept to concrete design, the technical architecture, data flows, and system components (the 'plumbing') that will enable your solution.",
+      color: "bg-green-50 border-green-200"
+    },
+    {
+      id: 4,
+      name: "Development (MVP)",
+      purpose: "This is the 'Build' phase. The smallest version of your idea that still delivers the core value.",
+      color: "bg-orange-50 border-orange-200"
+    },
+    {
+      id: 5,
+      name: "Deployment & Use",
+      purpose: "This is the 'Launch.' Move the product from your internal environment to the hands of real users in real-world conditions.",
+      color: "bg-red-50 border-red-200"
+    },
+    {
+      id: 6,
+      name: "Evaluation & Iteration",
+      purpose: "Decide: Pivot, Persevere, or Pulse-check. Analyze the data/feedback from your IoT sensors and AI logs. Are users using the product as intended? What's working? What isn't? Why?",
+      color: "bg-indigo-50 border-indigo-200"
+    }
+  ];
+
+  const dimensions = [
+    {
+      id: 'sdg',
+      icon: Target,
+      name: "SDG Alignment",
+      color: "text-blue-600",
+      bgColor: "bg-blue-50",
+      borderColor: "border-blue-200"
+    },
+    {
+      id: 'accessibility',
+      icon: Users,
+      name: "Accessibility & Inclusion",
+      color: "text-purple-600",
+      bgColor: "bg-purple-50",
+      borderColor: "border-purple-200"
+    },
+    {
+      id: 'environmental',
+      icon: Leaf,
+      name: "Environmental Sustainability",
+      color: "text-green-600",
+      bgColor: "bg-green-50",
+      borderColor: "border-green-200"
+    },
+    {
+      id: 'aiot',
+      icon: Cpu,
+      name: "AIoT Technical Considerations",
+      color: "text-orange-600",
+      bgColor: "bg-orange-50",
+      borderColor: "border-orange-200"
+    },
+    {
+      id: 'viability',
+      icon: Briefcase,
+      name: "Startup Viability",
+      color: "text-red-600",
+      bgColor: "bg-red-50",
+      borderColor: "border-red-200"
+    }
+  ];
+
+  const riPrinciples = [
+    {
+      id: 'anticipation',
+      icon: Eye,
+      name: "Anticipation",
+      description: "Look ahead - what might happen? System thinking about all implications. Acknowledge complexities and uncertainties.",
+      color: "text-blue-600"
+    },
+    {
+      id: 'reflexivity',
+      icon: Lightbulb,
+      name: "Reflexivity",
+      description: "Look inward - what assumptions are we making? Critically examine own assumptions, values, theories. Recognize limits of knowledge.",
+      color: "text-purple-600"
+    },
+    {
+      id: 'inclusion',
+      icon: MessageCircle,
+      name: "Inclusion",
+      description: "Look around - who should be involved? Involve stakeholders and public early via dialogue. Substantive decision-making and mutual learning.",
+      color: "text-green-600"
+    },
+    {
+      id: 'responsiveness',
+      icon: Zap,
+      name: "Responsiveness",
+      description: "Look forward - how will we adapt? Capacity to change direction based on stakeholder values. Adjust while recognizing insufficient knowledge.",
+      color: "text-orange-600"
+    }
+  ];
+
+  const frameworkQuestions = {
+    1: {
+      sdg: {
+        anticipation: ["Which SDGs does this opportunity address?"],
+        reflexivity: ["Who benefits from solving this problem, and what assumptions are we making about their needs?"],
+        inclusion: ["What partnerships are needed to amplify SDG impact?"],
+        responsiveness: ["How will we revisit or refine SDG priorities as we learn more about the problem context?"]
+      },
+      accessibility: {
+        anticipation: ["Who is excluded by default?", "Who did we consult to understand exclusion?"],
+        reflexivity: ["What is the intergenerational impact? (digital divide considerations)", "What assumptions are we making about who can/will use this?"],
+        inclusion: ["Who are ALL potential user groups? (age, ability, gender, socioeconomic status, geography)"],
+        responsiveness: ["How will we adjust our understanding of exclusion based on initial stakeholder feedback?"]
+      },
+      environmental: {
+        anticipation: ["Could circular economy principles apply here?"],
+        reflexivity: ["Does this opportunity have obvious environmental implications?"],
+        inclusion: ["Which environmental stakeholders (e.g., local communities, regulators, supply-chain actors) should be considered at this stage?"],
+        responsiveness: ["What early signals would indicate that environmental impacts are more significant than initially assumed?"]
+      },
+      aiot: {
+        anticipation: ["Will this work with existing systems/technologies our users have?"],
+        reflexivity: ["Does this problem genuinely need AI/IoT, or can simpler solutions work?"],
+        inclusion: ["What data would be needed? Is it ethically obtainable?"],
+        responsiveness: ["How will we validate or invalidate our early technical assumptions before committing to development?"]
+      },
+      viability: {
+        anticipation: ["Can we realistically solve this problem with our resources?", "What skills gaps exist in our team?"],
+        reflexivity: ["Can a small team build this?", "Do we have or can we develop the necessary expertise?"],
+        inclusion: ["Who are our key stakeholders and how will we engage them?"],
+        responsiveness: ["How do funding, talent, or time pressures influence product decisions?"]
+      }
+    },
+    2: {
+      sdg: {
+        anticipation: ["How are conflicts or trade-offs between SDG objectives identified and managed over time?"],
+        reflexivity: ["How do our identified positive impacts (SDG/Inclusion) provide a competitive advantage in our business strategy?"],
+        inclusion: ["What partnerships would amplify our impact?"],
+        responsiveness: ["How will SDG priorities be adjusted if market or stakeholder feedback challenges the initial framing?"]
+      },
+      accessibility: {
+        anticipation: ["What assumptions are embedded in our concept?"],
+        reflexivity: ["To what extent does our concept meet universal design's 7 principles, and which principles are we prioritizing?"],
+        inclusion: ["Have we involved diverse users in concept development?"],
+        responsiveness: ["What personalization or flexibility mechanisms allow the concept to adapt to diverse user needs as they emerge?"]
+      },
+      environmental: {
+        anticipation: ["Can we shift from selling a product to a service model (Functionality over Ownership) to retain control over material recovery?", "How might we encourage sufficiency vs. overconsumption?"],
+        reflexivity: ["Does our business model follow circular principles, or are we defaulting to linear 'take-make-dispose' assumptions?"],
+        inclusion: ["Which actors are affected by our environmental choices (users, suppliers, communities)?"],
+        responsiveness: ["How can the concept be adapted if sustainability assumptions prove unrealistic?", "What levers exist to redesign the value proposition to reduce environmental impact?"]
+      },
+      aiot: {
+        anticipation: ["Is AI actually needed for this concept?", "Is IoT sensing actually necessary?", "What are the core technical risks?"],
+        reflexivity: ["What value does AI/IoT add that simpler alternatives cannot provide, and does this justify the additional complexity and cost?"],
+        inclusion: ["Who bears the risks if the system fails or performs poorly?", "Are certain user groups more exposed to technical uncertainty than others?"],
+        responsiveness: ["How quickly can we pivot to simpler technical solutions if AI/IoT proves too complex or costly?"]
+      },
+      viability: {
+        anticipation: ["What risks of mission drift emerge as the startup grows?", "What regulatory requirements might apply?"],
+        reflexivity: ["Does our business model create, deliver, and capture value sustainably?", "Are we changing 'the way we do business' or just 'what we do'?"],
+        inclusion: ["What's our value proposition for different stakeholder groups?", "How will we engage stakeholders throughout development?"],
+        responsiveness: ["How do you plan to make a difference while still making enough money to stay in business?"]
+      }
+    },
+    3: {
+      sdg: {
+        anticipation: ["What assumptions link the product's functionality to intended SDG outcomes?"],
+        reflexivity: ["Which SDG targets are materially relevant to this product, and on what basis were they selected?"],
+        inclusion: ["Who should validate whether the system design meaningfully supports intended SDG outcomes?"],
+        responsiveness: ["How will system design be adjusted if SDG-related assumptions are not supported by evidence?"]
+      },
+      accessibility: {
+        anticipation: ["How does the system design accommodate diverse abilities while minimizing cognitive load?"],
+        reflexivity: ["How are accessibility constraints (connectivity, affordability, literacy) considered in product design?", "What are the non-negotiable accessibility requirements?"],
+        inclusion: ["Is our training data representative of the target user groups?", "Have we involved people with disabilities in co-design and testing?"],
+        responsiveness: ["Can the system learn and optimize for individual users?"]
+      },
+      environmental: {
+        anticipation: ["What environmental trade-offs are explicitly acknowledged?", "How will we design for durability and longevity?"],
+        reflexivity: ["Are we using renewable/sustainable materials?", "Can components be recycled, remanufactured, or reused?", "Are we using the MINIMUM data necessary?", "What's our product's total carbon footprint? (calculation method)"],
+        inclusion: ["Who is responsible for environmental performance across the system lifecycle?"],
+        responsiveness: ["What's our end-of-life/e-waste strategy?"]
+      },
+      aiot: {
+        anticipation: ["How will we ensure accuracy/reliability over time?"],
+        reflexivity: ["Who owns the data? How is it protected? How long do we keep it?", "Who is responsible for triggering and approving technical changes when these issues arise?"],
+        inclusion: ["Can data be collected ethically?"],
+        responsiveness: ["How will the system respond to data degradation, sensor failure, or model drift?"]
+      },
+      viability: {
+        anticipation: ["What decisions are irreversible?"],
+        reflexivity: ["What can be postponed?", "What are our short-term wins to build momentum?", "Which sustainability or responsibility features are prioritized under resource constraints?", "What's the total cost (development + deployment + maintenance)?"],
+        inclusion: ["Do we have the technical expertise to build this? What gaps exist?"],
+        responsiveness: ["Can we build this incrementally? (Agile approach)"]
+      }
+    },
+    4: {
+      sdg: {
+        anticipation: ["What risks exist that the MVP simplifies the problem in ways that undermine SDG intent?"],
+        reflexivity: ["How are SDG objectives translated into concrete product requirements or success criteria?", "Is our MVP actually addressing the SDG-related problem?"],
+        inclusion: ["Are we reaching intended beneficiaries?"],
+        responsiveness: ["How will SDG-related goals be revised if MVP testing shows limited or unintended impact?"]
+      },
+      accessibility: {
+        anticipation: ["Can users recover if something goes wrong?", "Are there safeguards for emergency situations?", "What happens if users make mistakes?", "What is the cognitive load on users? Can we reduce it?"],
+        reflexivity: ["What accessibility features are non-negotiable for MVP?", "Are we testing with age-diverse groups? (intergenerational considerations)"],
+        inclusion: ["Have we tested for algorithmic bias across diverse user groups?", "How are bias, uncertainty, or model degradation identified and managed?"],
+        responsiveness: ["Do users receive adequate operating tips and feedback?"]
+      },
+      environmental: {
+        anticipation: ["Can we track resource consumption during development?"],
+        reflexivity: ["Have we optimized for energy-efficient algorithms?", "Are materials performing as expected?"],
+        inclusion: ["Are development decisions increasing environmental burden for certain user groups or regions?", "Who is affected by material or energy choices at this stage?"],
+        responsiveness: ["How do we adapt material or energy choices if performance differs from expectations?", "How do sustainability findings during MVP development inform future design decisions?"]
+      },
+      aiot: {
+        anticipation: ["How do we ensure data privacy, security, and informed consent?"],
+        reflexivity: ["Are we using efficient algorithms to reduce computational time and overall hardware requirements?", "Is interoperability functioning with other systems?"],
+        inclusion: ["Is our AI performing accurately across all user groups?"],
+        responsiveness: ["How will we respond if technical performance differs significantly from expectations?"]
+      },
+      viability: {
+        anticipation: ["Can a small team actually build and maintain this?", "What regulatory requirements apply to our product?"],
+        reflexivity: ["What can be postponed to post-MVP?", "Are we generating short-term wins?"],
+        inclusion: ["What feedback mechanisms are we building in? (continuous learning)"],
+        responsiveness: ["How will we adjust MVP scope, team structure, or priorities based on development learnings?"]
+      }
+    },
+    5: {
+      sdg: {
+        anticipation: ["How do we measure if our contribution is substantive, not just symbolic?"],
+        reflexivity: ["Are we achieving substantive SDG impact?"],
+        inclusion: ["How does our data collection support evidence-based decision-making for broader social benefit?", "Who is actually benefiting? Who isn't?"],
+        responsiveness: ["How is SDG contribution assessed when direct measurement is not feasible?", "Are partnerships functioning as intended?"]
+      },
+      accessibility: {
+        anticipation: ["Are there unexpected exclusions?"],
+        reflexivity: ["What mechanisms exist to identify exclusion or unequal impacts during deployment?", "Are all intended user groups actually able to access and use the system?"],
+        inclusion: ["Do users feel the system is fair and doesn't create stigma?", "What barriers are emerging in real-world use?"],
+        responsiveness: ["How do we respond when users report exclusion, stigma, or misuse?", "What processes exist to address accessibility complaints quickly?"]
+      },
+      environmental: {
+        anticipation: ["Are we collecting data to extend product lifecycle?"],
+        reflexivity: ["Where are emissions generated?", "What's our product's total carbon footprint?"],
+        inclusion: ["Who experiences environmental externalities during real-world use of the product?", "Are certain communities disproportionately affected?"],
+        responsiveness: ["How are indirect or rebound effects identified?"]
+      },
+      aiot: {
+        anticipation: ["What monitoring mechanisms are in place to detect performance drift over time?"],
+        reflexivity: ["Who owns the data? How is it protected? How long do we keep it?", "Is long-term accuracy/reliability being maintained?"],
+        inclusion: ["Who is affected by system errors, downtime, or degraded performance?", "Are some users more exposed to technical risk than others?"],
+        responsiveness: ["What cybersecurity threats are emerging?", "How will we respond to unexpected technical failures or performance degradation?", "What mechanisms exist to update or patch the system in response to discovered issues?"]
+      },
+      viability: {
+        anticipation: ["How do we handle user feedback and complaints?", "Can our team handle growth?"],
+        reflexivity: ["What regulatory/compliance requirements must we meet?", "What infrastructure is needed for scale?", "Is value capture working as designed?", "How are we balancing impact and profitability?"],
+        inclusion: ["How are we engaging stakeholders during rollout?"],
+        responsiveness: ["What training/support do users need?"]
+      }
+    },
+    6: {
+      sdg: {
+        anticipation: ["Were there unintended consequences?"],
+        reflexivity: ["How do we compare to our initial impact goals?"],
+        inclusion: ["Who should be involved in interpreting impact results and deciding next steps?"],
+        responsiveness: ["How do we revise SDG claims or impact narratives based on evaluation results?"]
+      },
+      accessibility: {
+        anticipation: ["How does scaling affect accessibility and inclusion across different contexts?", "What new accessibility risks may emerge as the product evolves or scales?"],
+        reflexivity: ["How satisfied are users with different abilities?"],
+        inclusion: ["Have we continued involving diverse users in iteration?"],
+        responsiveness: ["How are diverse user perspectives incorporated across the product lifecycle?"]
+      },
+      environmental: {
+        anticipation: ["As we scale, how does our total environmental impact change, and how do we track it?"],
+        reflexivity: ["Can edge computing (or similar alternatives) reduce our environmental footprint?", "What's the actual product lifespan vs. designed lifespan?"],
+        inclusion: ["Who should be involved in decisions about end-of-use, recycling, or redesign?", "How do user practices influence environmental outcomes?"],
+        responsiveness: ["What is our predesigned 'End-of-Use' practice to ensure hardware components are recycled or refurbished?", "Can we improve material/energy efficiency further?"]
+      },
+      aiot: {
+        anticipation: ["How does scaling affect system robustness and data integrity?"],
+        reflexivity: ["Has accuracy/reliability held up over time?"],
+        inclusion: ["Who should be informed or consulted when technical limitations affect user outcomes?"],
+        responsiveness: ["What technical debt (shortcuts, workarounds, outdated components) have we accumulated?", "What technical improvements should be prioritized based on what we've learned?", "How will we balance technical refinement with new feature development?"]
+      },
+      viability: {
+        anticipation: ["How are we incorporating continuous feedback and iteration?"],
+        reflexivity: ["How is long-term viability aligned with sustainability and accessibility commitments?", "What capabilities have we built in our team?", "What should we change, keep, or abandon?", "What assumptions were wrong?"],
+        inclusion: ["How have stakeholder needs/values shifted?", "Which stakeholder voices are currently missing but critical for the next phase?"],
+        responsiveness: ["What have we learned about our business model?", "What new stakeholder voices should we include?", "Are we still solving the right problem?"]
+      }
+    }
+  };
+
+  return (
+    <div className="max-w-7xl mx-auto p-6 bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+      {/* Header */}
+      <div className="mb-8 text-center">
+        <h1 className="text-4xl font-bold text-gray-900 mb-3">
+          An Integrated Responsible Product Development Framework for Impact Tech AIoT Startups
+        </h1>
+        <p className="text-lg text-gray-600 mb-2">
+          A 3D Framework: Product Lifecycle × Responsible Innovation × Five Core Dimensions
+        </p>
+        <p className="text-sm text-gray-500">
+          Cristal Rivera Picado | Tampere University | 2025
+        </p>
+      </div>
+
+      {/* Info Toggle */}
+      <button
+        onClick={() => setShowInfo(!showInfo)}
+        className="mb-6 flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium"
+      >
+        <Info className="w-5 h-5" />
+        {showInfo ? 'Hide' : 'Show'} Framework Overview
+      </button>
+
+      {/* Framework Overview */}
+      {showInfo && (
+        <div className="mb-8 bg-white rounded-lg shadow-md p-6 border-2 border-blue-200">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">3D Framework Structure</h2>
+          <p className="text-gray-700 mb-4">This framework integrates:</p>
+          <ul className="space-y-2 mb-6">
+            <li className="flex items-start gap-2">
+              <span className="text-blue-600 font-bold">•</span>
+              <span><strong>Product Development Lifecycle</strong> (6 stages - the "spine")</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-purple-600 font-bold">•</span>
+              <span><strong>Responsible Innovation Principles</strong> (4 lenses for decision-making)</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-600 font-bold">•</span>
+              <span><strong>Five Core Dimensions</strong> (sustainability, accessibility, SDGs, technology, viability)</span>
+            </li>
+          </ul>
+
+          {/* RI Principles */}
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">Responsible Innovation Principles</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+            {riPrinciples.map((principle) => {
+              const Icon = principle.icon;
+              return (
+                <div key={principle.id} className="flex gap-3 p-3 bg-gray-50 rounded border border-gray-200">
+                  <Icon className={`w-5 h-5 ${principle.color} flex-shrink-0 mt-0.5`} />
+                  <div>
+                    <h4 className="font-semibold text-gray-900">{principle.name}</h4>
+                    <p className="text-sm text-gray-600">{principle.description}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* How to Use */}
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">How to Use This Framework</h3>
+          <div className="bg-amber-50 border border-amber-200 rounded p-4 space-y-2 text-sm text-gray-700">
+            <p><strong>1.</strong> Not all questions need to be answered at every stage</p>
+            <p><strong>2.</strong> Questions are prompts for discussion, not compliance checklists</p>
+            <p><strong>3.</strong> Prioritize based on your context and stage</p>
+            <p><strong>4.</strong> Document your responses for iteration and stakeholder communication</p>
+            <p><strong>5.</strong> Revisit regularly as you learn and circumstances change</p>
+          </div>
+        </div>
+      )}
+
+      {/* Interactive Navigator */}
+      <div className="mb-8 bg-white rounded-lg shadow-md p-6 border-2 border-gray-200">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Explore the Framework</h2>
+        
+        {/* Stage Selection */}
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold text-gray-700 mb-3">1. Select a Product Development Stage:</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {stages.map((stage) => (
+              <button
+                key={stage.id}
+                onClick={() => {
+                  setActiveStage(stage.id);
+                  setActiveDimension(null);
+                }}
+                className={`p-4 rounded-lg border-2 text-left transition-all ${
+                  activeStage === stage.id
+                    ? stage.color + ' shadow-md'
+                    : 'bg-white border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <div className="font-semibold text-gray-900 mb-1">Stage {stage.id}</div>
+                <div className="text-sm text-gray-700">{stage.name}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Dimension Selection */}
+        {activeStage && (
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold text-gray-700 mb-3">2. Choose a Dimension to Explore:</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {dimensions.map((dimension) => {
+                const Icon = dimension.icon;
+                return (
+                  <button
+                    key={dimension.id}
+                    onClick={() => setActiveDimension(dimension.id)}
+                    className={`p-4 rounded-lg border-2 text-left transition-all ${
+                      activeDimension === dimension.id
+                        ? dimension.bgColor + ' ' + dimension.borderColor + ' shadow-md'
+                        : 'bg-white border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 mb-1">
+                      <Icon className={`w-5 h-5 ${dimension.color}`} />
+                      <span className="font-semibold text-gray-900 text-sm">{dimension.name}</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Display Selected Content */}
+      {activeStage && (
+        <div className="bg-white rounded-lg shadow-md p-6 border-2 border-gray-200">
+          <div className="mb-4">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              Stage {activeStage}: {stages.find(s => s.id === activeStage)?.name}
+            </h2>
+            <p className="text-gray-600 italic">{stages.find(s => s.id === activeStage)?.purpose}</p>
+          </div>
+
+          {activeDimension ? (
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                {React.createElement(dimensions.find(d => d.id === activeDimension)?.icon, {
+                  className: `w-6 h-6 ${dimensions.find(d => d.id === activeDimension)?.color}`
+                })}
+                {dimensions.find(d => d.id === activeDimension)?.name}
+              </h3>
+
+              <div className="space-y-4">
+                {riPrinciples.map((principle) => {
+                  const questions = frameworkQuestions[activeStage]?.[activeDimension]?.[principle.id];
+                  if (!questions || questions.length === 0) return null;
+
+                  const Icon = principle.icon;
+                  return (
+                    <div key={principle.id} className="border-l-4 border-gray-300 pl-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Icon className={`w-4 h-4 ${principle.color}`} />
+                        <h4 className="font-semibold text-gray-800">{principle.name}</h4>
+                      </div>
+                      <ul className="space-y-2">
+                        {questions.map((q, idx) => (
+                          <li key={idx} className="text-gray-700 text-sm flex gap-2">
+                            <span className="text-gray-400">•</span>
+                            <span>{q}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            <div className="text-center py-8 text-gray-500">
+              Select a dimension above to view the guiding questions
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Footer */}
+      <div className="mt-8 pt-6 border-t border-gray-300 text-center text-sm text-gray-500">
+        <p>This framework synthesizes guidelines on environmental sustainability, accessibility,</p>
+        <p>and AIoT into a unified, product-design-oriented approach for impact tech startups.</p>
+      </div>
+    </div>
+  );
+};
+
+export default InteractiveFramework;
